@@ -1102,7 +1102,12 @@ private String avergingMethodDesc;
         this.avergingMethodDesc = avergingMethodDesc;
     }
 
+    @Override
+    public String toString() {
+        return representedTestVehModel;
+    }
 
+    
 
     
 }
