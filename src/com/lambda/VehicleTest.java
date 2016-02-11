@@ -57,11 +57,23 @@ public class VehicleTest {
 //            System.out.println("");
 //            System.out.println("====== Vehicles per number of gears ======");
 //            vehicleList.stream().collect(Collectors.groupingBy(Vehicle::getNumberofGears, Collectors.counting())).forEach((key, value) -> System.out.println(key + " -> " + value));
-            System.out.println("====== TOP 10  ======");
+//            System.out.println("====== TOP 10  ======");
+//            vehicleList.stream()
+//                    .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName))
+//                    .forEach((manufacturer, vehicles) -> System.out.println(manufacturer + " -> " + Arrays.toString(vehicles.stream().filter(distinctByKey((vehicle) -> vehicle.getRepresentedTestVehModel())).collect(Collectors.toList()).toArray())));
+            
+            
+            System.out.println("");
+            System.out.println("");
+            System.out.println("====== # Models per manufacturer ======");
             vehicleList.stream()
                     .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName))
-                    .forEach((manufacturer, vehicles) -> System.out.println(manufacturer + " -> " + Arrays.toString(vehicles.stream().filter(distinctByKey((vehicle) -> vehicle.getRepresentedTestVehModel())).collect(Collectors.toList()).toArray())));
+                    .forEach((manufacturer, vehicles)
+                            -> vehicles.stream()
+                            .collect(Collectors.groupingBy(Vehicle::getRepresentedTestVehModel, Collectors.counting()))
+                            .forEach((key, value) -> System.out.println(manufacturer + ": " + key + " => " + value)));
 
+            //.forEach((key,value) -> system.out.print(key + " => " + value);
 //            for (Vehicle vehicle : collect) {
 //                //representedTestVehModel
 //                System.out.println("Vehicle: " + vehicle.getTestedTransmissionType());
