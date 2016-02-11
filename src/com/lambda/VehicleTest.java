@@ -28,7 +28,8 @@ public class VehicleTest {
 
     public void execute() {
 //
-        try (Stream<String> lines = Files.lines(Paths.get("c:/temp", "temp.csv"));) {
+        //        try (Stream<String> lines = Files.lines(Paths.get("c:/temp", "temp.csv"));) {
+        try (Stream<String> lines = Files.lines(Paths.get("/home/nesas-02/", "temp.csv"));) {
             vehicleList = lines.skip(1)
                     .map(line -> line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"))
                     .map(lineArray -> new Vehicle(lineArray))
@@ -63,16 +64,48 @@ public class VehicleTest {
 //                    .forEach((manufacturer, vehicles) -> System.out.println(manufacturer + " -> " + Arrays.toString(vehicles.stream().filter(distinctByKey((vehicle) -> vehicle.getRepresentedTestVehModel())).collect(Collectors.toList()).toArray())));
             
             
-            System.out.println("");
-            System.out.println("");
-            System.out.println("====== # Models per manufacturer ======");
-            vehicleList.stream()
-                    .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName))
-                    .forEach((manufacturer, vehicles)
-                            -> vehicles.stream()
-                            .collect(Collectors.groupingBy(Vehicle::getRepresentedTestVehModel, Collectors.counting()))
-                            .forEach((key, value) -> System.out.println(manufacturer + ": " + key + " => " + value)));
+//            System.out.println("");
+//            System.out.println("");
+//            System.out.println("====== # Models per manufacturer ======");
+//            vehicleList.stream()
+//                    .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName))
+//                    .forEach((manufacturer, vehicles)
+//                            -> vehicles.stream()
+//                            .collect(Collectors.groupingBy(Vehicle::getRepresentedTestVehModel, Collectors.counting()))
+//                            .forEach((key, value) -> System.out.println(manufacturer + ": " + key + " => " + value)));
 
+            
+            
+            
+            System.out.println("");
+            System.out.println("");
+            System.out.println("====== TOP 10 - Vehicles with more horsepower ======");
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            System.out.println("");
+            System.out.println("");
+            System.out.println("====== TOP 10 - Brands with more vehicles with 6-speed manual gearbox ======");
+            
+            vehicleList.stream()
+                    .filter(vehicle -> vehicle.getTestedTransmissionType().trim().toLowerCase().equals("manual"))
+                    .filter(vehicle -> vehicle.getNumberofGears() == 6)
+                    .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName, Collectors.counting()))
+                    .entrySet().stream().
+                    sorted((cantidad1, cantidad2) -> Long.compare(cantidad2.getValue(), cantidad1.getValue()))
+                    .limit(10).forEach((valor) -> System.out.println(valor.getKey() + ": "+ valor.getValue()));
+            
+            
             //.forEach((key,value) -> system.out.print(key + " => " + value);
 //            for (Vehicle vehicle : collect) {
 //                //representedTestVehModel
