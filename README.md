@@ -1,6 +1,26 @@
 # JavaLambda1
 Java Lambda Exercises
 
+1. Listas y Strings
+
+Usando los siguientes nombres:
+
+“Barbara Lewis", " Maria Patterson", " Heather Evans", " Kelly Butler", " Jonathan Morgan", " Kevin Barnes", " Nicholas Hill", " Michael Coleman", " Donna Howard", " Jean Gonzalez"
+
+mostrar:
+
+    Lista organizada por length de menor a mayor
+    Lista organizada de forma alfabética (por el apellido) de  mayor a menor:
+        Ejemplo salida: 
+            Camilo Zapata
+            Molano Juan
+            León García
+    Lista con los nombres y apellidos invertidos.  ejemplo "juan molano" será "molano juan"
+
+======================================================
+
+Informe de autos
+
     Mostrar: 
         el nombre del fabricante y modelo de los vehiculo que:
             sea carro
