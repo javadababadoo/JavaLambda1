@@ -16,8 +16,8 @@ public class Lambda {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        NamesTest namesTest = new NamesTest();
-//        namesTest.execute();
+        NamesTest namesTest = new NamesTest();
+        namesTest.execute();
         
         VehicleTest vehicleTest = new VehicleTest();
         vehicleTest.execute();
