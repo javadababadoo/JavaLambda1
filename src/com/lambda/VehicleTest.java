@@ -30,7 +30,7 @@ public class VehicleTest {
     public void execute() {
         //Paths.get("c:/temp", "temp.csv") -- WINDOWS
         //Paths.get("/home/nesas-02/", "temp.csv") -- LINUX
-        try (Stream<String> lines = Files.lines(Paths.get("c:/temp", "temp.csv"));) {
+        try (Stream<String> lines = Files.lines(Paths.get("/home/nesas-ing/Downloads", "16tstcar.csv"));) {
             vehicleList = lines.skip(1)
                     .map(line -> line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"))
                     .map(lineArray -> new Vehicle(lineArray))
@@ -43,10 +43,10 @@ public class VehicleTest {
             System.out.println("===== Cars with horsepower between 100 and 160, rear wheel drive sorted by horsepower - 1=========");
             vehicleList.stream()
                     .filter(vehicle -> vehicle.getVehicleType().trim().toLowerCase().equals("car"))
-                    .filter(vehicle -> vehicle.getRatedHorsepower()  >= 100 & vehicle.getRatedHorsepower() <= 160)
+                    .filter(vehicle -> vehicle.getRatedHorsepower() >= 100 & vehicle.getRatedHorsepower() <= 160)
                     .filter(vehicle -> vehicle.getDriveSystemDescription().contains("2-Wheel Drive, Rear"))
                     .sorted((vehicle1, vehicle2) -> Integer.compare(vehicle1.getRatedHorsepower(), vehicle2.getRatedHorsepower()))
-                    .forEach(vehicle -> System.out.println(vehicle.getVehicleType() + " --- "+ vehicle.getVehicleManufacturerName() + " --- "+ vehicle.getRepresentedTestVehModel()+ " ---- "+ vehicle.getRatedHorsepower() + " --- "+ vehicle.getDriveSystemDescription()+ " --- "+ vehicle.getRatedHorsepower()));
+                    .forEach(vehicle -> System.out.println(vehicle.getVehicleType() + " --- " + vehicle.getVehicleManufacturerName() + " --- " + vehicle.getRepresentedTestVehModel() + " ---- " + vehicle.getRatedHorsepower() + " --- " + vehicle.getDriveSystemDescription() + " --- " + vehicle.getRatedHorsepower()));
 
             System.out.println("");
             System.out.println("");
@@ -54,7 +54,7 @@ public class VehicleTest {
             vehicleList.stream().collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName)).forEach((manufacturer, vehicle1List) -> {
                 System.out.println(manufacturer + ": ");
                 vehicle1List.stream()
-                .forEach(vehicle -> System.out.print(vehicle.getRepresentedTestVehModel()+", "));
+                        .forEach(vehicle -> System.out.print(vehicle.getRepresentedTestVehModel() + ", "));
             });
             System.out.println("");
             System.out.println("");
@@ -73,8 +73,8 @@ public class VehicleTest {
 
             vehicleList.stream().collect(Collectors.groupingBy(vehicle -> vehicle.getVehicleManufacturerName()))
                     .forEach((manufacturer, vehicles) -> vehicles.stream().collect(Collectors.maxBy((vehicle1, vehicle2) -> vehicle1.getRatedHorsepower() - vehicle2.getRatedHorsepower())).ifPresent((vehicleMaxHorsePower) -> vehiclesRatedHorsePowerList.add(vehicleMaxHorsePower)));
-            vehiclesRatedHorsePowerList.stream().sorted((vehicleHP1, vehicleHP2) -> vehicleHP2.getRatedHorsepower() - vehicleHP1.getRatedHorsepower()).limit(10).forEach(vehicle -> System.out.println(vehicle.getVehicleManufacturerName() +" "+ vehicle.getRepresentedTestVehModel()+ " "+ vehicle.getRatedHorsepower()));
-            
+            vehiclesRatedHorsePowerList.stream().sorted((vehicleHP1, vehicleHP2) -> vehicleHP2.getRatedHorsepower() - vehicleHP1.getRatedHorsepower()).limit(10).forEach(vehicle -> System.out.println(vehicle.getVehicleManufacturerName() + " " + vehicle.getRepresentedTestVehModel() + " " + vehicle.getRatedHorsepower()));
+
             System.out.println("");
             System.out.println("");
             System.out.println("====== # Models per manufacturer - 5 ======");
@@ -87,37 +87,26 @@ public class VehicleTest {
             System.out.println("");
             System.out.println("");
             System.out.println("====== TOP 10 - Brands with more vehicles with 6-speed manual gearbox - 6 ======");
-            
+
             vehicleList.stream()
                     .filter(vehicle -> vehicle.getTestedTransmissionType().trim().toLowerCase().equals("manual"))
                     .filter(vehicle -> vehicle.getNumberofGears() == 6)
                     .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName, Collectors.counting()))
                     .entrySet().stream().
                     sorted((cantidad1, cantidad2) -> Long.compare(cantidad2.getValue(), cantidad1.getValue()))
-                    .limit(10).forEach((valor) -> System.out.println(valor.getKey() + ": "+ valor.getValue()));
-            
-            
-            
-            
-            
-//    Listar cantidad de vehiculos por rango de caballos de fuerza por marca:
-//        Los rangos van de 0-100,  101-200, 201-300, 301-en adelante
-//        EJ:
-//            BMW
-//                0-100: 12
-//                101-200: 345
-//                201-300: 45
-//                301.... : 21
-//            CHEVROLET
-//                0-100: 33
-//                101-200: 44
-//                201-300: 66
-//                301.... : 76
-            
-//            vehicleList.stream()
-//                    .collect(Collectors.groupingBy((vehicle) -> vehicle.getVehicleManufacturerName())).entrySet().stream()
-//                    .forEach((vehiclesByManufacturer) -> vehiclesByManufacturer.getValue().stream().collect(Collectors.groupingBy(null)) );
-            
+                    .limit(10).forEach((valor) -> System.out.println(valor.getKey() + ": " + valor.getValue()));
+
+    
+            System.out.println("");
+            System.out.println("");
+            System.out.println("====== Vehicles with more rated horsepower ======");
+            vehicleList.stream()
+                    .collect(Collectors.groupingBy((vehicle) -> vehicle.getVehicleManufacturerName())).entrySet().stream()
+                    .forEach(
+                            (vehiclesByManufacturer) -> vehiclesByManufacturer.getValue().stream()
+                            .collect(Collectors.groupingBy(vehicle -> Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) <= 3 ? Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) : 4))
+                            .forEach((key, value) -> System.out.println(vehiclesByManufacturer.getKey() + " ======> " + key + " ---- " + value.size()))
+                    );
 
         } catch (IOException e) {
             e.printStackTrace();
