@@ -102,7 +102,7 @@ public class VehicleTest {
                     .forEach(
                             (vehiclesByManufacturer) -> vehiclesByManufacturer.getValue().stream()
                             .collect(Collectors.groupingBy(vehicle -> Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) <= 3 ? Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) : 4))
-                            .forEach((key, value) -> System.out.println(vehiclesByManufacturer.getKey() + " ======> " + ((int)(100*key)-99)+ "-"+((int)(100*key)) + " ---- " + value.size()))
+                            .forEach((key, value) -> System.out.println(vehiclesByManufacturer.getKey() + " ======> " + ((int)(100*key)-99)+ "-"+(((int)(100*key)== 400)? "...":(int)(100*key) )+ " ---- " + value.size()))
                     );
 
         } catch (IOException e) {

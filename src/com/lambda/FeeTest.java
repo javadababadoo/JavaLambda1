@@ -12,7 +12,7 @@ import java.text.NumberFormat;
  *
  * @author PC
  */
-public class Test {
+public class FeeTest {
 
     private static BigDecimal mensualInterestRate = new BigDecimal(0.81 / 100l);
 
@@ -23,7 +23,7 @@ public class Test {
     public static void main(String[] args) {
         BigDecimal loan = new BigDecimal(100000000);
         System.out.println(currencyFormat(loan));
-        Test test = new Test();
+        FeeTest test = new FeeTest();
         test.calculateFee(loan);
     }
 
