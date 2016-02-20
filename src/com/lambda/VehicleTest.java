@@ -30,7 +30,7 @@ public class VehicleTest {
     public void execute() {
         //Paths.get("c:/temp", "temp.csv") -- WINDOWS
         //Paths.get("/home/nesas-02/", "temp.csv") -- LINUX
-        try (Stream<String> lines = Files.lines(Paths.get("/home/nesas-ing/Downloads", "16tstcar.csv"));) {
+        try (Stream<String> lines = Files.lines(Paths.get("/home/fenix/Downloads", "16tstcar.csv"));) {
             vehicleList = lines.skip(1)
                     .map(line -> line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"))
                     .map(lineArray -> new Vehicle(lineArray))
@@ -45,6 +45,7 @@ public class VehicleTest {
                     .filter(vehicle -> vehicle.getVehicleType().trim().toLowerCase().equals("car"))
                     .filter(vehicle -> vehicle.getRatedHorsepower() >= 100 & vehicle.getRatedHorsepower() <= 160)
                     .filter(vehicle -> vehicle.getDriveSystemDescription().contains("2-Wheel Drive, Rear"))
+                    .filter(vehicle -> vehicle.getTestedTransmissionType().contains("Manual"))
                     .sorted((vehicle1, vehicle2) -> Integer.compare(vehicle1.getRatedHorsepower(), vehicle2.getRatedHorsepower()))
                     .forEach(vehicle -> System.out.println(vehicle.getVehicleType() + " --- " + vehicle.getVehicleManufacturerName() + " --- " + vehicle.getRepresentedTestVehModel() + " ---- " + vehicle.getRatedHorsepower() + " --- " + vehicle.getDriveSystemDescription() + " --- " + vehicle.getRatedHorsepower()));
 
@@ -60,11 +61,7 @@ public class VehicleTest {
             System.out.println("");
             System.out.println("====== Vehicles per number of gears - 3======");
             vehicleList.stream().collect(Collectors.groupingBy(Vehicle::getNumberofGears, Collectors.counting())).forEach((key, value) -> System.out.println(key + " -> " + value));
-            System.out.println("====== TOP 10  ======");
-            vehicleList.stream()
-                    .collect(Collectors.groupingBy(Vehicle::getVehicleManufacturerName))
-                    .forEach((manufacturer, vehicles) -> System.out.println(manufacturer + " -> " + Arrays.toString(vehicles.stream().filter(distinctByKey((vehicle) -> vehicle.getRepresentedTestVehModel())).collect(Collectors.toList()).toArray())));
-
+            
             System.out.println("");
             System.out.println("");
             System.out.println("====== TOP 10 - Vehicles with more horsepower - 4 ======");
@@ -105,7 +102,7 @@ public class VehicleTest {
                     .forEach(
                             (vehiclesByManufacturer) -> vehiclesByManufacturer.getValue().stream()
                             .collect(Collectors.groupingBy(vehicle -> Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) <= 3 ? Math.ceil(((double) vehicle.getRatedHorsepower() / 100d)) : 4))
-                            .forEach((key, value) -> System.out.println(vehiclesByManufacturer.getKey() + " ======> " + key + " ---- " + value.size()))
+                            .forEach((key, value) -> System.out.println(vehiclesByManufacturer.getKey() + " ======> " + ((int)(100*key)-99)+ "-"+((int)(100*key)) + " ---- " + value.size()))
                     );
 
         } catch (IOException e) {
